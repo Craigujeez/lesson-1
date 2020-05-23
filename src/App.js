@@ -1,29 +1,57 @@
-import React, { Component } from 'react';
-import {createStore} from 'redux';
-import {Provider} from 'react-redux'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react';
+import {useDispatch,useSelector} from 'react-redux';
 import {Route,Switch} from 'react-router-dom';
-import rootReducer from './reducers/index'
 import Homepage from './pages/Homepage';
 import Header from './components/header/Header';
 import ShopPage from './pages/Shop/ShopPage';
-import SignInPage from './pages/SignIn/SignInPage';
+import SignInPage from './pages/SignIn/SignIn-and-SignOut-Page';
+import {auth , createUserProfileDocument} from './firebase/firebase.utils'
 import './App.css'
 
-const store = createStore(rootReducer);
 
-class App extends Component {
-  render() {
-    return (
-    <Provider store={store}>
+const App = () => {
+  const dispatch = useDispatch();
+  const currentUser = useSelector(state => state.shop.user)
+
+  const setUser = (user) => {
+    dispatch({type:'LOAD_USER', user: user})
+  }
+
+  let unsubscribeFromAuth = null;
+
+  useEffect(() => {
+    unsubscribeFromAuth = auth.onAuthStateChanged( async userAuth => {
+
+      if(userAuth){
+        const userRef = await createUserProfileDocument(userAuth); // checks if user exists in store and if not adds to store
+
+        userRef.onSnapshot(snapShot => {
+          setUser(snapShot.data());
+        })
+        console.log(userAuth, 'user');
+      } else setUser(userAuth);
+
+    }) 
+
+    return ()=>{
+      unsubscribeFromAuth();
+    }
+  }, [])
+
+  console.log(currentUser, "current user");
+  
+
+  return ( 
+    <>
       <Header/>
             <Switch>
                 <Route exact path='/' component={Homepage}/>
                 <Route exact path='/shop' component={ShopPage}/>
                 <Route exact path ='/sign-in' component={SignInPage}/>
             </Switch>
-    </Provider>
-    );
-  }
+    </>
+   );
 }
-
+ 
 export default App;

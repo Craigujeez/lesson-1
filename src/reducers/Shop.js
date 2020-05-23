@@ -1,4 +1,7 @@
 const initialState={
+
+    user: null,
+
     data: [
         {
           id: 1,
@@ -248,11 +251,14 @@ const initialState={
       ]
 }
 
-const Shop = (state={initialState}, action) => {
+const Shop = (state=initialState, action) => {
     switch (action.type) {
-        case "SELECT_ITEM":
+        case "LOAD_USER":
             
-            return state;
+            return {
+              ...state,
+              user: action.user,
+            };
     
         default:
             return state;
