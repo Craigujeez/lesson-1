@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {createStore, applyMiddleware, compose} from 'redux';
+import logger from 'redux-logger';
 import {Provider,useSelector} from 'react-redux';
 import thunk from 'redux-thunk';
 import {createFirestoreInstance, reduxFirestore, getFirestore } from 'redux-firestore';
@@ -12,10 +13,12 @@ import {BrowserRouter} from 'react-router-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+const middlewares = [logger,thunk.withExtraArgument({ getFirebase, getFirestore })];
+
 
 const store = createStore(rootReducer,
     compose(
-        applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
+        applyMiddleware(...middlewares),
         reduxFirestore(fbConfig)
     )
 );

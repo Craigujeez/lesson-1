@@ -1,6 +1,5 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import {useDispatch,useSelector} from "react-redux";
-import {Redirect} from "react-router-dom";
 import {signInWithGoogle} from '../../firebase/firebase.utils';
 import {SignInUser,SignUpUser} from "../../reducers/auth";
 import '../../styles/forms.scss'
@@ -53,14 +52,9 @@ export const SignIn = () => {
         SignInUser(signInForm)(dispatch);
     }
 
-    const isLoggedIn = useSelector(state => state.firebase.auth);
     const state = useSelector(state => state);
     console.log(state, "state");
     
-
-    useEffect(()=>{
-        if(isLoggedIn.uid) return <Redirect to="/"/>
-    },[]);
 
     return ( 
         <div className='sign-in'>
@@ -89,7 +83,7 @@ export const SignIn = () => {
                 <div className='buttons'>
                     <Button type='submit' title='Sign In'/>
 
-                    <Button onClick={()=> signInWithGoogle()} isGoogleSignIn title='Sign In With Google'/>
+                    <Button type="button" onClick={()=> signInWithGoogle()} isGoogleSignIn title='Sign In With Google'/>
 
                 </div>
             </form>
