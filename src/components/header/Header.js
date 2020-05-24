@@ -6,7 +6,7 @@ import {ReactComponent as Logo} from '../../assets/crown.svg'
 import '../../styles/header.scss'
 
 const Header = () => {
-    const isLoggedIn = useSelector(state => state.shop.user)
+    const isLoggedIn = useSelector(state => state.firebase.auth.uid);
     
     return ( 
         <div className='header'>
@@ -17,7 +17,7 @@ const Header = () => {
             <div className='options'>
                 <Link to='/shop' className='option'> Shop</Link>
                 <Link className='option'> Contact</Link>
-                { isLoggedIn ? <div className='options' onClick={() => auth.signOut()}>Sign Out</div> : <Link to='/sign-in' className='option'> Sign In </Link>}
+                { isLoggedIn ? <div className='options' onClick={() => auth.signOut()}>Sign Out</div> : <div className='options'> <Link to='/sign-in'> Sign In </Link> </div>}
             </div>
 
 

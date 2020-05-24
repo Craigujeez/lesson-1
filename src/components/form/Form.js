@@ -1,5 +1,8 @@
-import React,{useState} from 'react';
-import {signInWithGoogle,auth,createUserProfileDocument} from '../../firebase/firebase.utils';
+import React,{useState,useEffect} from 'react';
+import {useDispatch,useSelector} from "react-redux";
+import {Redirect} from "react-router-dom";
+import {signInWithGoogle} from '../../firebase/firebase.utils';
+import {SignInUser,SignUpUser} from "../../reducers/auth";
 import '../../styles/forms.scss'
 
 export const FormInput = ({handleChange, label, ...otherProps}) => {
@@ -38,6 +41,8 @@ export const SignIn = () => {
     }
     const [signInForm, setsignInForm] = useState(data);
 
+    const dispatch = useDispatch();
+
     const handleChange = (e) => {
         const {name, value} = e;
         setsignInForm({...signInForm, [name]: value});
@@ -45,8 +50,18 @@ export const SignIn = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setsignInForm({...signInForm, email: "", password:""});
+        SignInUser(signInForm)(dispatch);
     }
+
+    const isLoggedIn = useSelector(state => state.firebase.auth);
+    const state = useSelector(state => state);
+    console.log(state, "state");
+    
+
+    useEffect(()=>{
+        if(isLoggedIn.uid) return <Redirect to="/"/>
+    },[]);
+
     return ( 
         <div className='sign-in'>
             <h2> I already have an account</h2>
@@ -90,6 +105,8 @@ export const SignUp = () => {
         confirmPassword: ""
     }
     const [signUpForm, setsignUpForm] = useState(data);
+
+    const dispatch = useDispatch();
  
     const handleChange = (e) => {
         const {name, value} = e;
@@ -98,19 +115,15 @@ export const SignUp = () => {
  
     const handleSubmit = async (e) => {
          e.preventDefault();
-         const {displayName,email,password,confirmPassword} = signUpForm;
+
+         const {password,confirmPassword} = signUpForm;
+
          if(password !== confirmPassword){
              alert("passwords don't match");
              return;
          }
-         try{
-             const {user} = await auth.createUserWithEmailAndPassword(email,password);
- 
-             await createUserProfileDocument(user, {displayName});
-         } catch (error) {
-             console.log(error);
-             alert(error);
-         }
+
+         SignUpUser(signUpForm)(dispatch);
     }
      return ( 
          <div className="sign-up">
