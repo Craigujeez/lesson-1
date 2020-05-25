@@ -5,6 +5,7 @@ import {Route,Switch, Redirect} from 'react-router-dom';
 import Homepage from './pages/Homepage';
 import Header from './components/header/Header';
 import ShopPage from './pages/Shop/ShopPage';
+import Checkout from './pages/checkout/Checkout';
 import SignInPage from './pages/SignIn/SignIn-and-SignOut-Page';
 import {auth , createUserProfileDocument} from './firebase/firebase.utils'
 import './App.css'
@@ -47,6 +48,7 @@ const App = () => {
             <Switch>
                 <Route exact path='/' component={Homepage}/>
                 <Route exact path='/shop' component={ShopPage}/>
+                <Route exact path='/checkout' component={Checkout}/>
                 <Route exact path ='/sign-in' render={() => isLoggedIn.uid ? (<Redirect to="/"/>) : (<SignInPage/>)}/>
             </Switch>
     </>
