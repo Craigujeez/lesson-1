@@ -22,11 +22,11 @@ export const FormInput = ({handleChange, label, ...otherProps}) => {
     )
 }
 
-export const Button = ({title,isGoogleSignIn , ...otherProps}) => {
+export const Button = ({title,isGoogleSignIn,inverted , ...otherProps}) => {
     return (
         <button 
         {...otherProps}
-        className={`${ isGoogleSignIn ? 'google-sign-in' : '' } custom-button title`} 
+        className={`${ inverted ? 'inverted' : '' } custom-button`} 
         >
             {title}
         </button>
