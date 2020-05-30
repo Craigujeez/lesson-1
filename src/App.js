@@ -7,7 +7,8 @@ import Header from './components/header/Header';
 import ShopPage from './pages/Shop/ShopPage';
 import Checkout from './pages/checkout/Checkout';
 import SignInPage from './pages/SignIn/SignIn-and-SignOut-Page';
-import {auth , createUserProfileDocument} from './firebase/firebase.utils'
+import Collection from './components/collection/Collection';
+import {auth , createUserProfileDocument} from './firebase/firebase.utils';
 import './App.css'
 
 
@@ -50,6 +51,7 @@ const App = () => {
                 <Route exact path='/shop' component={ShopPage}/>
                 <Route exact path='/checkout' component={Checkout}/>
                 <Route exact path ='/sign-in' render={() => isLoggedIn.uid ? (<Redirect to="/"/>) : (<SignInPage/>)}/>
+                <Route path={`/shop/:collectionid`} component={Collection}/>
             </Switch>
     </>
    );
