@@ -27,13 +27,18 @@ const RemoveItemFromCart = (state,action) => {
 };
 
 const TotalPrice = (state) => {
+    let prices = [];
+
     // const newState = state.cartItems.slice(0);
-    let total = state.cartItems.map(item => item.quantity * item.price);
 
-    console.log(total, "total");
-    const add = (a, b) => a + b 
+    state.cartItems.map(item => prices.push(item.quantity * item.price))
 
-    const sum = total.reduce(add,0);
+    console.log(prices, "total");
+
+    const sum = prices.reduce(function(a, b){
+        return a + b;
+    }, 0);
+
     return sum;
 }
 
