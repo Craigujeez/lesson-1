@@ -11,10 +11,10 @@ const MenuItem = ({title, item, size}) => {
                 <div 
                     className='background-image'
                     style={{
-                        backgroundImage: `url(${item.items[0].imageUrl})`
+                        backgroundImage: `url(${item.imageUrl})`
                         }}
                 />
-                <Link to={`/shop/${item.routeName}`} className='content'>
+                <Link to={`/shop/${item.title}`} className='content'>
                     <h1>{title.toUpperCase()}</h1>
                     <span> Shop Now</span>
                 </Link>

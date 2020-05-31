@@ -34,7 +34,7 @@ const Checkout = () => {
                 - Exp: 01/2025
                 - CVV: 123
             </div>
-            <StripeButton price={totalPrice} />
+            <StripeButton price={totalPrice} disabled={totalPrice === 0} />
         </div>
      );
 }

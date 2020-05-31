@@ -4,7 +4,7 @@ import MenuItem from '../menu-item/Menu-item';
 import './directory.scss'
 
 const Directory = () => {
-    const data = useSelector(state => state.shop.data)
+    const data = useSelector(state => state.shop.directory)
     
     return ( 
         <div className='directory-menu'>
