@@ -1,6 +1,15 @@
 $sub-color: grey;
 $main-color: black;
 
+:root {
+	--col-primary: #C9874A;
+	--col-black: #000000;
+	--col-blue: #0094CA;
+	--col-white: #FFFFFF;
+    --col-yellow: #F9B617;
+    --col-light-grey: #F8F8F8;
+}
+
 @mixin shrinkLabel {
   top: -14px;
   font-size: 12px;
@@ -15,7 +24,7 @@ $main-color: black;
     background: none;
     background-color: white;
     color: $sub-color;
-    font-size: 18px;
+    font-size: 14px;
     padding: 10px 10px 10px 5px;
     display: block;
     width: 100%;
@@ -115,4 +124,50 @@ $main-color: black;
   display: flex;
   justify-content: space-between;
   margin: 30px auto;
+}
+
+/* test */
+
+.signin input {
+  border-radius: 10px 10px 0px 0px;
+  width: 90%;
+  padding: 27px 15px 8px 15px;
+  background: var(--col-light-grey);
+  border-bottom: 1px solid #DADADA;
+  transition: 0.2s all ease-in-out;
+}
+
+input {
+  font-size: inherit;
+  font-family: 'Museo Sans', 'Raleway', sans-serif;
+  // border: none;
+}
+input:focus {
+  outline: none;
+  // border: none;
+}
+
+.input {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.input label {
+  position: absolute;
+  z-index: 1;
+  bottom: 14px;
+  font-size: 14px;
+  left: 15px;
+  color: $sub-color;
+  pointer-events: none;
+  transition: 0.2s all ease-in-out;
+}
+.signin input:focus {
+  border-bottom: 2px solid var(--col-black-opacity);
+  outline: none;
+}
+.signin input:focus + label {
+  color: var(--col-black-opacity);
+  font-size: 12px;
+  transform: translateY(-140%);
 }

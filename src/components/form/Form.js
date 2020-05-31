@@ -1,23 +1,27 @@
 import React,{useState} from 'react';
-import {useDispatch,useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {signInWithGoogle} from '../../firebase/firebase.utils';
 import {SignInUser,SignUpUser} from "../../reducers/auth";
 import '../../styles/forms.scss'
 
 export const FormInput = ({handleChange, label, ...otherProps}) => {
     return (
-        <div className="group">
-            <input 
-                name={otherProps.name}
-                type={otherProps.type}
-                value={otherProps.value}
-                className='form-input' 
-                onChange={(e)=>handleChange(e.target)}
-                required={otherProps.required}
-            />
-                    <label for={otherProps.name} className={`${otherProps.value.length ? 'shrink' : '' }`}>
-                        {label}
-                    </label>
+        <div className="signin group">
+            <div className="input">
+                <input 
+                    name={otherProps.name}
+                    type={otherProps.type}
+                    value={otherProps.value}
+                    className='form-input' 
+                    onChange={(e)=>handleChange(e.target)}
+                    required={otherProps.required}
+                    autoComplete="new-password"
+                />
+                <label for={otherProps.name} className={`${otherProps.value.length ? 'shrink' : '' }`}>
+                    {label}
+                </label>
+
+            </div>
         </div>
     )
 }
@@ -26,7 +30,7 @@ export const Button = ({title,isGoogleSignIn,inverted , ...otherProps}) => {
     return (
         <button 
         {...otherProps}
-        className={`${ inverted ? 'inverted' : '' } custom-button`} 
+        className={`${ inverted ? 'inverted' : ''} custom-button ${ isGoogleSignIn ? "google-sign-in" : "" } `} 
         >
             {title}
         </button>
@@ -52,8 +56,7 @@ export const SignIn = () => {
         SignInUser(signInForm)(dispatch);
     }
 
-    const state = useSelector(state => state);
-    console.log(state, "state");
+    // const state = useSelector(state => state);
     
 
     return ( 
@@ -68,7 +71,7 @@ export const SignIn = () => {
                      handleChange={handleChange}
                      label='Email'
                      value={signInForm.email}
-                     autoComplete="current-password"
+                     autoComplete="new-password"
                      required 
                 />
                 <FormInput 
@@ -77,6 +80,7 @@ export const SignIn = () => {
                     handleChange={handleChange} 
                     label='Password'
                     value={signInForm.password} 
+                    autoComplete="new-password"
                     required
                 />
 

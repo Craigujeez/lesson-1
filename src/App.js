@@ -47,7 +47,7 @@ const App = () => {
     <>
       <Header/>
             <Switch>
-                <Route exact path='/' component={Homepage}/>
+                <Route exact path='/' render={() => isLoggedIn.uid ? (<Homepage/>) : (<SignInPage/>)}/>
                 <Route exact path='/shop' component={ShopPage}/>
                 <Route exact path='/checkout' component={Checkout}/>
                 <Route exact path ='/sign-in' render={() => isLoggedIn.uid ? (<Redirect to="/"/>) : (<SignInPage/>)}/>
