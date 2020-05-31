@@ -13,7 +13,11 @@ import {BrowserRouter} from 'react-router-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-const middlewares = [logger,thunk.withExtraArgument({ getFirebase, getFirestore })];
+const middlewares = [thunk.withExtraArgument({ getFirebase, getFirestore })];
+
+if (process.env.NODE_ENV === "development"){
+    middlewares.push(logger)
+}
 
 
 const store = createStore(rootReducer,
