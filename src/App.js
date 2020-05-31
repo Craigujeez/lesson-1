@@ -49,7 +49,7 @@ const App = () => {
             <Switch>
                 <Route exact path='/' render={() => isLoggedIn.uid ? (<Homepage/>) : (<SignInPage/>)}/>
                 <Route exact path='/shop' component={ShopPage}/>
-                <Route exact path='/checkout' component={Checkout}/>
+                <Route exact path='/checkout' render={() => isLoggedIn.uid ? (<Checkout/>) : (<SignInPage/>)} />
                 <Route exact path ='/sign-in' render={() => isLoggedIn.uid ? (<Redirect to="/"/>) : (<SignInPage/>)}/>
                 <Route path={`/shop/:collectionid`} component={Collection}/>
             </Switch>
