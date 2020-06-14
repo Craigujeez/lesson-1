@@ -35,6 +35,34 @@ const config = {
     }
     return userRef;
   }
+
+  export const convertCollectionsSnapshotToMap = (collections) => {
+
+      const transformedCollection = collections.docs.map(doc => {
+          const {title,items} = doc.data();
+
+          return {
+              routeName: encodeURI(title.toLowerCase()),
+              id: doc.id,
+              title: title.toLowerCase(),
+              items
+          }
+      });
+      return transformedCollection
+  }
+
+  export const convertDirectorySnapshotToMap = (directory) => {
+    const transformedDirectory  = directory.docs.map( doc => {
+        const {title, imageUrl,linkUrl} = doc.data();
+        return {
+            id: doc.id,
+            title,
+            imageUrl,
+            linkUrl
+        }
+    });
+    return transformedDirectory;
+  }
   
   // initialise app with the config object 
 

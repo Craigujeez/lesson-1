@@ -2,6 +2,7 @@
 import React,{useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Route,Switch, Redirect} from 'react-router-dom';
+import {updateDirectory,updateCollection} from "./reducers/Shop"
 import Homepage from './pages/Homepage';
 import Header from './components/header/Header';
 import ShopPage from './pages/Shop/ShopPage';
@@ -15,7 +16,8 @@ import './App.css'
 const App = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state.firebase.auth);
-
+  const {directory,collection} = useSelector(state => state.shop);
+ 
   const setUser = (user) => {
     dispatch({type:'LOAD_USER', user: user})
   }
@@ -34,13 +36,18 @@ const App = () => {
   }) 
 
   useEffect(() => {
+    if(directory.length < 1){
+      updateDirectory()(dispatch);
+    }
 
+    if(collection.length < 1){
+      updateCollection()(dispatch);
+    }
+    
     return ()=>{
       unsubscribeFromAuth();
     }
   }, [])
-
-  console.log( "current user");
   
 
   return ( 

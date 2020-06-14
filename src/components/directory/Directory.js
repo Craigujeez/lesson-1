@@ -4,12 +4,12 @@ import MenuItem from '../menu-item/Menu-item';
 import './directory.scss'
 
 const Directory = () => {
-    const data = useSelector(state => state.shop.directory)
+    const {directory} = useSelector(state => state.shop);
     
     return ( 
         <div className='directory-menu'>
             {
-                data.map(item=>{
+                directory.map(item=>{
                     return <MenuItem key={item.id} title={item.title} item={item} size={item.size} />
                 })
             }
