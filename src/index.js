@@ -10,6 +10,7 @@ import firebase from "firebase/app";
 import fbConfig from "./firebase/firebase.utils";
 import rootReducer from './reducers/index';
 import {BrowserRouter} from 'react-router-dom';
+import Spinner from "./components/spinner/spinner.js";
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
@@ -43,7 +44,7 @@ const rrfProps = {
 
 const AuthIsLoaded = ({ children }) => {
     const auth = useSelector(state => state.firebase.auth)
-    if (!auth.isLoaded) return <div>Loading Screen...</div>;
+    if (!auth.isLoaded) return <Spinner/>;
         return children
 }
 
