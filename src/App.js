@@ -17,25 +17,29 @@ const App = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state.firebase.auth);
   const {directory,collection} = useSelector(state => state.shop);
- 
+  const User = useSelector(state => state.shop.user);
+  console.log(User,"user");
+  console.log(isLoggedIn,"islogged in")
+
   const setUser = (user) => {
     dispatch({type:'LOAD_USER', user: user})
   }
 
-  const unsubscribeFromAuth = auth.onAuthStateChanged( async userAuth => {
-
-    if(userAuth){
-      const userRef = await createUserProfileDocument(userAuth); // checks if user exists in store and if not adds to store
-
-      userRef.onSnapshot(snapShot => {
-        setUser(snapShot.data());
-      })
-      console.log(userAuth, 'user');
-    } else setUser(userAuth);
-
-  }) 
-
   useEffect(() => {
+    const unsubscribeFromAuth = auth.onAuthStateChanged( async userAuth => {
+      console.log(userAuth);
+      
+      if(userAuth){
+        const userRef = await createUserProfileDocument(userAuth); // checks if user exists in store and if not adds to store
+  
+        userRef.onSnapshot(snapShot => {
+          setUser({id: snapShot.id, ...snapShot.data()});
+        })
+        console.log(userAuth, 'user');
+      } else setUser(userAuth);
+  
+    }) 
+    
     if(directory.length < 1){
       updateDirectory()(dispatch);
     }
@@ -54,7 +58,7 @@ const App = () => {
     <>
       <Header/>
             <Switch>
-                <Route exact path='/' render={() => isLoggedIn.uid ? (<Homepage/>) : (<SignInPage/>)}/>
+                <Route exact path='/' render={() => isLoggedIn ? (<Homepage/>) : (<SignInPage/>)}/>
                 <Route exact path='/shop' component={ShopPage}/>
                 <Route exact path='/checkout' render={() => isLoggedIn.uid ? (<Checkout/>) : (<SignInPage/>)} />
                 <Route exact path ='/sign-in' render={() => isLoggedIn.uid ? (<Redirect to="/"/>) : (<SignInPage/>)}/>

@@ -36,6 +36,21 @@ const config = {
     return userRef;
   }
 
+  export const addCollectionAndDocuments = async (
+    collectionKey, // name of the collection on firebase
+    objectsToAdd // the array/objects of data to add
+  ) => {
+    const collectionRef = firestore.collection(collectionKey); // creates a reference to the collection name you are adding
+  
+    const batch = firestore.batch(); // using batch to maker sure you add all of them at once and if anyone fails the entire upload fails.
+    objectsToAdd.forEach(obj => {
+      const newDocRef = collectionRef.doc();
+      batch.set(newDocRef, obj);
+    });
+  
+    return await batch.commit();
+  };
+
   export const convertCollectionsSnapshotToMap = (collections) => {
 
       const transformedCollection = collections.docs.map(doc => {
