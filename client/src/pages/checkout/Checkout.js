@@ -1,11 +1,16 @@
-import React from 'react';
-import {useSelector} from "react-redux";
+import React, {useEffect} from 'react';
+import {useSelector,useDispatch} from "react-redux";
 import StripeButton from "../../components/stripe/StripeButton"
 import CheckoutItem from "./Checkout-Item"
 import "../../styles/checkout.styles.scss";
 
 const Checkout = () => {
+    const dispatch = useDispatch();
     const {cartItems, totalPrice} = useSelector(state => state.cart) ;
+
+    useEffect(()=>{
+        dispatch({type: "UPDATE_PRICE"})
+    },[cartItems])
     return ( 
         <div className="checkout-page">
             <div className="checkout-header">

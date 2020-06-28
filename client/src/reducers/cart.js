@@ -33,19 +33,16 @@ const RemoveItemFromCart = (state,action) => {
 };
 
 const TotalPrice = (state) => {
-    let prices = [];
+   const price =  state.cartItems.filter(val => Boolean(val.price) && Boolean(val.quantity)).reduce((acc, item) => {
+        let itemTotalPrice = Number(item.quantity) * Number(item.price);
 
-    // const newState = state.cartItems.slice(0);
+        itemTotalPrice = itemTotalPrice + acc;
+        console.log(itemTotalPrice,"item total price");
 
-    state.cartItems.map(item => prices.push(item.quantity * item.price))
-
-    console.log(prices, "total");
-
-    const sum = prices.reduce(function(a, b){
-        return a + b;
-    }, 0);
-
-    return sum;
+        return itemTotalPrice;
+        
+    },0)
+    return price
 }
 
 const cart = (state=initialState, action) => {
@@ -54,7 +51,6 @@ const cart = (state=initialState, action) => {
             return {
               ...state,
               cartItems: addToCart(state,action),
-              totalPrice: TotalPrice(state),
             };
         case "TOGGLE_CART_HIDDEN":
             return {
@@ -65,12 +61,15 @@ const cart = (state=initialState, action) => {
             return {
                 ...state,
                 cartItems: clearFromCart(state,action),
-                totalPrice: TotalPrice(state),
             };
         case "REMOVE_ITEM":
             return {
                 ...state,
                 cartItems: RemoveItemFromCart(state,action),
+            };
+        case "UPDATE_PRICE":
+            return {
+                ...state,
                 totalPrice: TotalPrice(state),
             };
             
